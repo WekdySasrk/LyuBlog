@@ -1,62 +1,146 @@
 package com.Lyu.LyuBlog.service.impl;
 
+import com.Lyu.LyuBlog.constant.RedisKeyConstants;
 import com.Lyu.LyuBlog.entity.Friend;
+import com.Lyu.LyuBlog.entity.SiteSetting;
+import com.Lyu.LyuBlog.mapper.FriendMapper;
+import com.Lyu.LyuBlog.mapper.SiteSettingMapper;
 import com.Lyu.LyuBlog.model.vo.FriendInfo;
 import com.Lyu.LyuBlog.service.FriendService;
+import com.Lyu.LyuBlog.service.RedisService;
+import com.Lyu.LyuBlog.util.markdown.MarkdownUtils;
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
-
+/**
+*@ClassName: FriendServiceImpl
+*@Description: 友链业务层实现
+*@Author: Lyu
+*@Date: 2024/6/12
+*@Version:
+*
+**/
 @Service
 public class FriendServiceImpl implements FriendService {
+    @Autowired
+    FriendMapper friendMapper;
+    @Autowired
+    SiteSettingMapper siteSettingMapper;
+    @Autowired
+    RedisService redisService;
+
     @Override
     public List<Friend> getFriendList() {
-        return null;
+        return friendMapper.getFriendList();
     }
 
     @Override
     public List<com.Lyu.LyuBlog.model.vo.Friend> getFriendVOList() {
-        return null;
+        return friendMapper.getFriendVOList();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateFriendPublishedById(Long friendId, Boolean published) {
-
+        if (friendMapper.updateFriendPublishedById(friendId, published) != 1) {
+            throw new PersistenceException("操作失败");
+        }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveFriend(Friend friend) {
-
+        friend.setViews(0);
+        friend.setCreateTime(new Date());
+        if (friendMapper.saveFriend(friend) != 1) {
+            throw new PersistenceException("添加失败");
+        }
     }
 
+
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateFriend(com.Lyu.LyuBlog.model.dto.Friend friend) {
-
+        if (friendMapper.updateFriend(friend) != 1) {
+            throw new PersistenceException("修改失败");
+        }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteFriend(Long id) {
-
+        if (friendMapper.deleteFriend(id) != 1) {
+            throw new PersistenceException("删除失败");
+        }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateViewsByNickname(String nickname) {
-
+        if (friendMapper.updateViewsByNickname(nickname) != 1) {
+            throw new PersistenceException("操作失败");
+        }
     }
 
     @Override
     public FriendInfo getFriendInfo(boolean cache, boolean md) {
-        return null;
+        String redisKey = RedisKeyConstants.FRIEND_INFO_MAP;
+        if (cache) {
+            FriendInfo friendInfoFromRedis = redisService.getObjectByValue(redisKey, FriendInfo.class);
+            if (friendInfoFromRedis != null) {
+                return friendInfoFromRedis;
+            }
+        }
+        List<SiteSetting> siteSettings = siteSettingMapper.getFriendInfo();
+        FriendInfo friendInfo = new FriendInfo();
+        for (SiteSetting siteSetting : siteSettings) {
+            if ("friendContent".equals(siteSetting.getNameEn())) {
+                if (md) {
+                    friendInfo.setContent(MarkdownUtils.markdownToHtmlExtensions(siteSetting.getValue()));
+                } else {
+                    friendInfo.setContent(siteSetting.getValue());
+                }
+            } else if ("friendCommentEnabled".equals(siteSetting.getNameEn())) {
+                if ("1".equals(siteSetting.getValue())) {
+                    friendInfo.setCommentEnabled(true);
+                } else {
+                    friendInfo.setCommentEnabled(false);
+                }
+            }
+        }
+        if (cache && md) {
+            redisService.saveObjectToValue(redisKey, friendInfo);
+        }
+        return friendInfo;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateFriendInfoContent(String content) {
-
+        if (siteSettingMapper.updateFriendInfoContent(content) != 1) {
+            throw new PersistenceException("修改失败");
+        }
+        deleteFriendInfoRedisCache();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateFriendInfoCommentEnabled(Boolean commentEnabled) {
+        if (siteSettingMapper.updateFriendInfoCommentEnabled(commentEnabled) != 1) {
+            throw new PersistenceException("修改失败");
+        }
+        deleteFriendInfoRedisCache();
+    }
 
+    /**
+     * 删除友链页面缓存
+     */
+    private void deleteFriendInfoRedisCache() {
+        redisService.deleteCacheByKey(RedisKeyConstants.FRIEND_INFO_MAP);
     }
 }

@@ -23,4 +23,6 @@ public class UploadConstants {
      */
     public static final String IMAGE = "image";
 
+    public static final String UPYUN = "upyun";
+
 }

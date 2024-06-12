@@ -15,6 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+*@ClassName: LoginController
+*@Description: 前台登录
+*@Author: Lyu
+*@Date: 2024/6/12
+*@Version:
+*
+**/
 @RestController
 public class LoginController {
 

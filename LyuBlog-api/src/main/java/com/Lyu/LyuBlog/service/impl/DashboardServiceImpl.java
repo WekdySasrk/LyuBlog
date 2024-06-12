@@ -16,7 +16,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+*@ClassName: DashboardServiceImpl
+*@Description: 仪表盘业务层实现
+*@Author: Lyu
+*@Date: 2024/6/12
+*@Version:
+*
+**/
 @Service
 public class DashboardServiceImpl implements DashboardService {
 

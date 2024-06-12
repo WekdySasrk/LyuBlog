@@ -1,8 +1,6 @@
 package com.Lyu.LyuBlog.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /**
 *@ClassName: CityVisitor
@@ -12,6 +10,9 @@ import lombok.ToString;
 *@Version:
 *
 **/
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString

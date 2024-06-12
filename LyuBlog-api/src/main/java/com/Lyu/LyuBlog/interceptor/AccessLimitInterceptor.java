@@ -14,6 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
+
+/**
+*@ClassName: AccessLimitInterceptor
+*@Description: 访问控制拦截器
+*@Author: Lyu
+*@Date: 2024/6/12
+*@Version:
+*
+**/
 @Component
 public class AccessLimitInterceptor implements HandlerInterceptor {
     @Autowired

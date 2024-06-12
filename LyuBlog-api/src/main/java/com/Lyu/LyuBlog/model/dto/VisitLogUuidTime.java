@@ -1,11 +1,9 @@
 package com.Lyu.LyuBlog.model.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
