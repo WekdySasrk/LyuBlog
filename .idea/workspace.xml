@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc1b2aa8-cf8e-48ff-8562-bd61dd4f4793" name="更改" comment="" />
+    <list default="true" id="fc1b2aa8-cf8e-48ff-8562-bd61dd4f4793" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/LyuBlog-api/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/LyuBlog-api/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,6 +56,12 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "preferences.pluginManager"
+  },
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
+      "directory",
+      "module"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
