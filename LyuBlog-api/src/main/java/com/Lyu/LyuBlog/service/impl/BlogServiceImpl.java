@@ -122,7 +122,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public void updateBlog(Blog blog) {
+    public void updateBlog(com.Lyu.LyuBlog.model.dto.Blog blog) {
 
     }
 

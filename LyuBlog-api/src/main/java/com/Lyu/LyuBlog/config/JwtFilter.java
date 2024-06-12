@@ -17,6 +17,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+
+/**
+ * @Description: JWT请求过滤器
+ * @author lyu
+ * @date 2020/10/18
+ */
+
 public class JwtFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

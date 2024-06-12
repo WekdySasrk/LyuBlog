@@ -14,6 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+*@ClassName: DashboardAdminController
+*@Description: 后台管理仪表盘
+*@Author: Lyu
+*@Date: 2024/6/12
+*@Version:
+*
+**/
 @RestController
 @RequestMapping("/admin")
 public class DashboardAdminController {

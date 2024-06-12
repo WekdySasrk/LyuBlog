@@ -53,7 +53,7 @@ public interface BlogService {
 
     String getBlogPassword(Long blogId);
 
-    void updateBlog(Blog blog);
+    void updateBlog(com.Lyu.LyuBlog.model.dto.Blog blog);
 
     int countBlogByIsPublished();
 
